@@ -28,7 +28,7 @@ public class OutputZone  extends PaperScreen {
     
 
     public void drawOnPaper() {
-	background(0);
+	background(10);
 
       ArrayList<TrackedElement> te = colorTracker.findColor(millis());
       TouchList touchs = colorTracker.getTouchList();

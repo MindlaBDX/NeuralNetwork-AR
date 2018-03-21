@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import de.voidplus.redis.*;
 import org.openni.*;
 
+import tech.lity.rea.colorconverter.*;
+
 import java.util.*;
 
 import fr.inria.guimodes.Mode;
@@ -46,7 +48,10 @@ void settings(){
 Redis redis;
 
 void connect(){
-  redis = new Redis(this, "54.37.10.254", 6379);
+
+    redis = new Redis(this, "127.0.0.1", 6379);
+    
+    // redis = new Redis(this, "54.37.10.254", 6379);
   // redis.auth("156;2Asatu:AUI?S2T51235AUEAIU");
 }
 

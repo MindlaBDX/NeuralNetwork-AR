@@ -60,9 +60,12 @@ public class FeedbackZone  extends PaperTouchScreen {
 	SkatoloLink.addMouseTo(touchList, skatoloInside, this);
         SkatoloLink.updateTouch(touchList, skatoloInside);
 
-        drawTouch();
+	try{
+	drawTouch();
 	skatoloInside.draw(getGraphics());
-
+	}catch(Exception e){
+	    e.printStackTrace();
+	}
 	
     }
 
