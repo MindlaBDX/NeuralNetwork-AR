@@ -270,8 +270,8 @@ def get_weights_redis(r, neurons_per_layer):
     #return weights
 
 if __name__ == "__main__":
-    r = redis.StrictRedis(host='54.37.10.254', port=6379, db=0)
-    # r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    # r = redis.StrictRedis(host='54.37.10.254', port=6379, db=0)
+    r = redis.StrictRedis(host='localhost', port=6379, db=0)
     if (sys.argv[1] == 'init'):
         [nbNeuronsPerLayers,networkWeights] = initialize(r)
     elif (sys.argv[1] == 'predict'):
