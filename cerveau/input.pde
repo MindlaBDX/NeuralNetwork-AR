@@ -5,9 +5,10 @@ InputZone inputZone;
 float[] inputs;
 int nbInputs = 10;
 
+
 // IP  - vps469444.ovh.net
 //  54.37.10.254 : 6379
-public class InputZone  extends PaperScreen {
+public class InputZone  extends TableScreen {
 
   int w = 150;
   int h = 220;
@@ -18,32 +19,32 @@ public class InputZone  extends PaperScreen {
   PVector origin = new PVector(22, 96);
   int picSize = 4; // Works better with power of 2
 
-  public void settings() {
-    setDrawingSize(w, h);
-    loadMarkerBoard(sketchPath() + "/markers/lecture.svg", w, h);
-    setDrawOnPaper();
-  }
+    public InputZone(){
+	super(inputZonePos, inputZoneSize.x, inputZoneSize.y);
+	init();
+    }
+    
+    void init() {
+	inputZone = this;
+	// setSaveName(sketchPath() + "/input.xml");
+	// useAlt(false);
+	// setLoadSaveKey("i", "I");
+ 	
+	inputView = new TrackedView(this);
+	inputView.setCaptureSizeMM(captureSize);
+	inputView.setImageWidthPx(picSize);
+	inputView.setImageHeightPx(picSize);
+	inputView.setTopLeftCorner(origin);
+	inputView.init();
 
-  public void setup() {
-      inputZone = this;
-    setSaveName(sketchPath() + "/input.xml");
-    useAlt(false);
-    setLoadSaveKey("i", "I");
-
-    inputView = new TrackedView(this);
-    inputView.setCaptureSizeMM(captureSize);
-    inputView.setImageWidthPx(picSize);
-    inputView.setImageHeightPx(picSize);
-    inputView.setTopLeftCorner(origin);
-    inputView.init();
-
-    inputs = new float[nbInputs];
-  }
+	inputs = new float[nbInputs];
+    }
 
     PImage out;
     
     public void drawOnPaper() {
-	
+
+	setLocation(0, 0, 2);
 	// Objectif: lecture de X pixels,
 	stroke(100);
 	noFill();

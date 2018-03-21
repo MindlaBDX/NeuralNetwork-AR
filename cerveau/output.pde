@@ -3,32 +3,30 @@ float[] feedbackValue;
 int distanceSlider = 33; // mm
 int sliderOffset = 6; // mm
 
-public class OutputZone  extends PaperScreen {
+public class OutputZone  extends TableScreen {
 
     int w = 100;
     int h = 320;
     
   ColorTracker colorTracker;
     
-    public void settings(){
-        setDrawingSize(w, h);
-        loadMarkerBoard(sketchPath() + "/markers/sortie.svg", w, h);
-        setDrawOnPaper();
+    public OutputZone(){
+	super(outputZonePos, outputZoneSize.x, outputZoneSize.y);
+	init();
     }
 
-    public void setup() {
+    public void init() {
 	setSaveName(sketchPath() + "/output.xml");
 	useAlt(false);
 	setLoadSaveKey("o", "O");
 	setDrawingFilter(0);
-	
 	feedbackValue = new float[MAX_NEURON_PER_LAYER];    
 	colorTracker = papart.initRedTracking(this, 1f);
     }
     
 
     public void drawOnPaper() {
-	background(10);
+	background(100);
 
       ArrayList<TrackedElement> te = colorTracker.findColor(millis());
       TouchList touchs = colorTracker.getTouchList();

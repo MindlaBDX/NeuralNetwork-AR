@@ -1,6 +1,30 @@
 import fr.inria.papart.tracking.DetectedMarker;
 
-public class ModesZone  extends PaperScreen {
+int left = -300;
+
+PVector modesZonePos = new PVector(-130, 140);
+PVector modesZoneSize = new PVector(180, 40);
+
+
+PVector inputZonePos = new PVector(left - 40, -145);
+PVector inputZoneSize = new PVector(150, 220);
+
+PVector neuronZonePos = new PVector(left + 50, -210);
+PVector neuronZoneSize = new PVector(420, 320);
+
+PVector outputZonePos = new PVector(185, -215);
+PVector outputZoneSize = new PVector(100, 320);
+
+PVector feedbackZonePos = new PVector(150, 150);
+PVector feedbackZoneSize = new PVector(150, 35);
+
+// public FeedbackZone(){
+//     super(feedbackZonePos, feedbackZoneSize.x, feedbackZoneSize.y);
+//     init();
+// }
+
+
+public class ModesZone  extends TableScreen {
   int w = 180;
   int h = 40;
 
@@ -8,14 +32,13 @@ public class ModesZone  extends PaperScreen {
     Skatolo skatoloInside;
 
     
-  public void settings() {
-    setDrawingSize(w, h);
-    loadMarkerBoard(sketchPath() + "/markers/modes.svg", w, h);
-    setDrawOnPaper();
-  }
+    public ModesZone(){
+	super(modesZonePos, modesZoneSize.x, modesZoneSize.y);
+	init();
+    }
 
-  public void setup() {
-    setSaveName(sketchPath() + "/modes.xml");
+    public void init() {
+	setSaveName(sketchPath() + "/modes.xml");
     useAlt(false);
     setLoadSaveKey("m", "M");
 

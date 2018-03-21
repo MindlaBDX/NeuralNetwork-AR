@@ -9,12 +9,12 @@ import fr.inria.papart.calibration.files.*;
 
 NeuronZone neuronZone;
 
-public class NeuronZone  extends PaperTouchScreen {
 
-  int w = 420;
-  int h = 310;
+public class NeuronZone  extends TableScreen {
+
   ColorTracker colorTracker;
-  Skatolo skatoloInside;
+    CalibratedStickerTracker stickerTracker;
+
 
   /// A envoyer
   // Nombre d'entrée, 
@@ -42,27 +42,25 @@ public class NeuronZone  extends PaperTouchScreen {
   // Mode test: 
   //  rnn:input:"0.1; 0.2; 0.1; 0.1"  (Liste)
 
-  public void settings() {
-    setDrawingSize(w, h);
-    loadMarkerBoard(Papart.markerFolder + "A4-default.svg", w, h);
-    setDrawOnPaper();
-  }
 
-  public void setup() {
-      neuronZone = this;
-
-      colorTracker = papart.initRedTracking(this, 1f);
-    // colorTracker = papart.initBlueTracking(this, 0.5f);
-
-    // skatoloInside = new Skatolo(parent, this);
-    // skatoloInside.setAutoDraw(false);
-    // skatoloInside.getMousePointer().disable();
+    public NeuronZone(){
+	super(neuronZonePos, neuronZoneSize.x, neuronZoneSize.y);
+	init();
+    }
     
-    setSaveName(sketchPath() + "/neuron.xml");
-    useAlt(false);
-    setLoadSaveKey("n", "N");
-    setDrawingFilter(0);    
-    initNeuronCapture();
+    public void init() {
+	neuronZone = this;
+	
+	stickerTracker = new CalibratedStickerTracker(this, 9);
+	
+	//	colorTracker = papart.initRedTracking(this, 1f);
+	// colorTracker = papart.initBlueTracking(this, 0.5f);
+	
+	// setSaveName(sketchPath() + "/neuron.xml");
+	// useAlt(false);
+	// setLoadSaveKey("n", "N");
+	// setDrawingFilter(0);    
+	initNeuronCapture();
   }
 
     void initNeuronCapture(){
@@ -70,56 +68,44 @@ public class NeuronZone  extends PaperTouchScreen {
 	capturedNeurons = new int[MAX_LAYERS][MAX_NEURON_PER_LAYER];
     }
     
-    
-  public void drawOnPaper() {
-    background(10, 180);
-    fill(200, 100, 20);
-
-    strokeWeight(3);
-    noFill();
-    stroke(255);
-    rect(0, 0, drawingSize.x, drawingSize.y);
-    
-    ArrayList<TrackedElement> te = colorTracker.findColor(millis());
-    TouchList touchs = colorTracker.getTouchList();
-
-    // Draw the touch found by the tracker. 
-    fill(0, 100, 100);
-
-    if(Mode.is("init")){
-	for (Touch t : touchs) {
-	// Debug
-	ellipse(t.position.x, t.position.y + 8, 10, 10);
-	text(t.id, t.position.x, t.position.y + 8);
+    public void drawOnPaper() {
+	background(10, 180);
+	fill(200, 100, 20);
 	
-	// First layer
-	fillDetectedNeuron(t.position.x, t.position.y);
+	strokeWeight(3);
+	noFill();
+	stroke(255);
+	rect(0, 0, drawingSize.x, drawingSize.y);
+	
+	ArrayList<TrackedElement> te = stickerTracker.findColor(millis());
+	TouchList touchs = stickerTracker.getTouchList(1); // 1 is red
+	//	ArrayList<TrackedElement> te = colorTracker.findColor(millis());
+	// TouchList touchs = colorTracker.getTouchList();
+	
+	// Draw the touch found by the tracker. 
+	fill(0, 100, 100);
+	
+	if(Mode.is("init")){
+	    for (Touch t : touchs) {
+		// Debug
+		ellipse(t.position.x, t.position.y + 8, 2, 2);
+		// text(t.id, t.position.x, t.position.y + 8);
+		// First layer
+		fillDetectedNeuron(t.position.x, t.position.y);
+	    }
 	}
+	drawDetectedNeurons();
+	
+	if(Mode.is("init")){
+	    drawAllInputs();
+	}
+	if(Mode.is("learn") || Mode.is("predict")){
+	    if( neuralNetwork!= null && neuralNetwork.size() > 0){
+		drawNeuronLinks();
+	    }
+	}
+	
     }
-    drawDetectedNeurons();
-
-     if(Mode.is("init")){
-	drawAllInputs();
-     }
-     if(Mode.is("learn") || Mode.is("predict")){
-	 if( neuralNetwork!= null && neuralNetwork.size() > 0){
-	     drawNeuronLinks();
-	 }
-     }
-     
-    // Touch mouse = createTouchFromMouse();
-    // touchs.add(mouse);
-    // SkatoloLink.updateTouch(touchs, skatoloInside); 
-
-    // // Draw the pointers. (debug)
-    // for (tech.lity.rea.skatolo.gui.Pointer p : skatoloInside.getPointerList()) {
-    //     fill(0, 200, 0);
-    //     rect(p.getX(), p.getY(), 3, 3);
-    // }
-
-    // // draw the GUI.
-    // skatoloInside.draw(getGraphics());
-  }
 
     void drawNeuronLinks(){
 	NeuronLayer prevLayer = null;
@@ -316,7 +302,7 @@ public class NeuronZone  extends PaperTouchScreen {
 
 }
 
-int detectionTime = 100;
+int detectionTime = 5;
 
 int leftAdjust = 13; //mm
 int inputAdjust = 3;

@@ -1,24 +1,13 @@
 
 
-public class FeedbackZone  extends PaperTouchScreen {
-
-    int w = 100;
-    int h =35;
+public class FeedbackZone extends TableScreen {
     Skatolo skatoloInside;
-
-    
-    public void settings() {
-	setDrawingSize(w, h);
-	loadMarkerBoard(Papart.markerFolder + "A4-default.svg", w, h);
-    setDrawOnPaper();
+    public FeedbackZone(){
+	super(feedbackZonePos, feedbackZoneSize.x, feedbackZoneSize.y);
+	init();
     }
     
-    public void setup() {
-
-    setSaveName(sketchPath() + "/feedback.xml");
-    useAlt(false);
-    setLoadSaveKey("f", "F");
-    setDrawingFilter(0);
+    public void init() {
 
     skatoloInside = new Skatolo(parent, this);
     skatoloInside.setAutoDraw(false);
@@ -42,31 +31,27 @@ public class FeedbackZone  extends PaperTouchScreen {
 
     public void happy(){
 	println("Sending feedback");
-
 	sendFeebdack();
-
     }
     public void sad(){
 	//	println("Sad pressed");
+	println("size : " + drawingSize);
     }
        
-
     // TODO: buttons here for Touch !
-    
     public void drawOnPaper() {
-	background(255, 60);
-	setLocation(0, 220, 0);
+	background(255, 180);
 
+	updateTouch();
 	SkatoloLink.addMouseTo(touchList, skatoloInside, this);
         SkatoloLink.updateTouch(touchList, skatoloInside);
 
 	try{
-	drawTouch();
-	skatoloInside.draw(getGraphics());
+	    drawTouch();
+	    skatoloInside.draw(getGraphics());
 	}catch(Exception e){
 	    e.printStackTrace();
 	}
-	
     }
 
 }
