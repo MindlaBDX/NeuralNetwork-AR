@@ -32,7 +32,7 @@ void settings(){
  void setup(){
    //  papart = Papart.seeThrough(this);
      papart = Papart.projection(this);
-     papart.loadTouchInput().initHandDetection();
+     //     papart.loadTouchInput().initHandDetection();
      new InputZone();
      new NeuronZone();
      new ModesZone();

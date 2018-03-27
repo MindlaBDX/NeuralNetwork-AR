@@ -6,8 +6,10 @@ public class FeedbackZone extends TableScreen {
 	super(feedbackZonePos, feedbackZoneSize.x, feedbackZoneSize.y);
 	init();
     }
-    
+       ColorTracker colorTracker;
+  
     public void init() {
+    colorTracker = papart.initRedTracking(this, 1f);
 
     skatoloInside = new Skatolo(parent, this);
     skatoloInside.setAutoDraw(false);
@@ -40,18 +42,27 @@ public class FeedbackZone extends TableScreen {
        
     // TODO: buttons here for Touch !
     public void drawOnPaper() {
-	background(255, 180);
+	//	background(255, 180);
 
-	updateTouch();
-	SkatoloLink.addMouseTo(touchList, skatoloInside, this);
-        SkatoloLink.updateTouch(touchList, skatoloInside);
+	// updateTouch();
 
-	try{
-	    drawTouch();
-	    skatoloInside.draw(getGraphics());
-	}catch(Exception e){
-	    e.printStackTrace();
-	}
+        // SkatoloLink.updateTouch(touchList, skatoloInside);
+
+   ArrayList<TrackedElement> te = colorTracker.findColor(millis());
+      colorMode(RGB, 255);
+      background(0);
+      TouchList touchs = colorTracker.getTouchList();
+
+      for(Touch t : touchs){
+	  ellipse(t.position.x,
+		  t.position.y, 10, 10); 
+      }
+
+      SkatoloLink.addMouseTo(touchList, skatoloInside, this);
+      SkatoloLink.updateTouch(touchs, skatoloInside); 
+
+      skatoloInside.draw(getGraphics());
+	    //	    drawTouch();
     }
 
 }

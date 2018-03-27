@@ -2,9 +2,11 @@ import fr.inria.papart.tracking.DetectedMarker;
 
 int left = -300;
 
-PVector modesZonePos = new PVector(-130, 140);
-PVector modesZoneSize = new PVector(180, 40);
+//PVector modesZonePos = new PVector(-130, 140);
+//PVector modesZoneSize = new PVector(180, 40);
 
+PVector modesZonePos = new PVector(-130, 0);
+PVector modesZoneSize = new PVector(180, 180);
 
 PVector inputZonePos = new PVector(left - 40, -145);
 PVector inputZoneSize = new PVector(150, 220);
@@ -15,7 +17,7 @@ PVector neuronZoneSize = new PVector(420, 320);
 PVector outputZonePos = new PVector(185, -215);
 PVector outputZoneSize = new PVector(100, 320);
 
-PVector feedbackZonePos = new PVector(150, 150);
+PVector feedbackZonePos = new PVector(170, 160);
 PVector feedbackZoneSize = new PVector(150, 35);
 
 // public FeedbackZone(){
@@ -25,10 +27,9 @@ PVector feedbackZoneSize = new PVector(150, 35);
 
 
 public class ModesZone  extends TableScreen {
-  int w = 180;
-  int h = 40;
 
-  ColorTracker colorTracker;
+    ColorTracker colorTracker;
+    // CalibratedColorTracker colorTracker;
     Skatolo skatoloInside;
 
     
@@ -38,11 +39,10 @@ public class ModesZone  extends TableScreen {
     }
 
     public void init() {
-	setSaveName(sketchPath() + "/modes.xml");
-    useAlt(false);
-    setLoadSaveKey("m", "M");
-
-    colorTracker = papart.initRedTracking(this, 1f);
+	//    colorTracker = papart.initAllTracking(this, 1.0f);
+    
+    //    colorTracker = new CalibratedColorTracker(this, 1.5f);
+     colorTracker = papart.initRedTracking(this, 1f);
 
     skatoloInside = new Skatolo(parent, this);
     skatoloInside.setAutoDraw(false);
@@ -80,35 +80,30 @@ public class ModesZone  extends TableScreen {
     }
     
     boolean debug = false;
+    
+    
   public void drawOnPaper() {
-      //      setLocation(0, drawingSize.y, 0);
+      background(20);
 
       ArrayList<TrackedElement> te = colorTracker.findColor(millis());
+      colorMode(RGB, 255);
       TouchList touchs = colorTracker.getTouchList();
+
+      // for(Touch t : touchs){
+      // 	  ellipse(t.position.x,
+      // 		  t.position.y, 10, 10); 
+      // }
 
       SkatoloLink.updateTouch(touchs, skatoloInside); 
 
       if(debug){
-	  background(100);
-	  
 	  // Draw the pointers. (debug)
 	  for (tech.lity.rea.skatolo.gui.Pointer p : skatoloInside.getPointerList()) {
 	      fill(0, 200, 0);
 	      rect(p.getX(), p.getY(), 3, 3);
 	  }
-	  skatoloInside.draw(getGraphics());
       }
 
       skatoloInside.draw(getGraphics());
-      
-      // Main marker, with id 800 - 1000
-    // int id = getMainMarker(MARKER_WIDTH);
-    // if (id != -1) {
-    //   colorMode(HSB, 10, 100, 100); // change hue
-    //   background(id - 800, 100, 100);
-    // } else {
-    //   colorMode(RGB, 255); // default
-    //   background(id - 800, 240, 240);
-    // }
   }
 }
