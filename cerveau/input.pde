@@ -43,8 +43,7 @@ public class InputZone  extends TableScreen {
     PImage out;
     
     public void drawOnPaper() {
-
-	setLocation(0, 0, 2);
+	
 	// Objectif: lecture de X pixels,
 	stroke(100);
 	noFill();

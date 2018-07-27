@@ -7,8 +7,8 @@ public class OutputZone  extends TableScreen {
 
     int w = 100;
     int h = 320;
-    
-  ColorTracker colorTracker;
+
+    CalibratedStickerTracker stickerTracker;
     
     public OutputZone(){
 	super(outputZonePos, outputZoneSize.x, outputZoneSize.y);
@@ -21,15 +21,16 @@ public class OutputZone  extends TableScreen {
 	setLoadSaveKey("o", "O");
 	setDrawingFilter(0);
 	feedbackValue = new float[MAX_NEURON_PER_LAYER];    
-	colorTracker = papart.initRedTracking(this, 1f);
+
+	stickerTracker = new CalibratedStickerTracker(this, 15);
     }
     
 
     public void drawOnPaper() {
-	background(100);
+	background(25);
 
-      ArrayList<TrackedElement> te = colorTracker.findColor(millis());
-      TouchList touchs = colorTracker.getTouchList();
+      ArrayList<TrackedElement> te = stickerTracker.findColor(millis());
+      TouchList touchs = stickerTracker.getTouchList(0); // Touchs 0 -> red
 
       //      println("nbTouchs: " + te.size());
 

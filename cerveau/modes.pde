@@ -28,10 +28,10 @@ PVector feedbackZoneSize = new PVector(150, 35);
 
 public class ModesZone  extends TableScreen {
 
-    ColorTracker colorTracker;
+    // ColorTracker colorTracker;
     // CalibratedColorTracker colorTracker;
     Skatolo skatoloInside;
-
+    CalibratedStickerTracker stickerTracker;
     
     public ModesZone(){
 	super(modesZonePos, modesZoneSize.x, modesZoneSize.y);
@@ -40,9 +40,10 @@ public class ModesZone  extends TableScreen {
 
     public void init() {
 	//    colorTracker = papart.initAllTracking(this, 1.0f);
-    
-    //    colorTracker = new CalibratedColorTracker(this, 1.5f);
-     colorTracker = papart.initRedTracking(this, 1f);
+    	stickerTracker = new CalibratedStickerTracker(this, 13);
+	
+	//    colorTracker = new CalibratedColorTracker(this, 1.5f);
+	// colorTracker = papart.initRedTracking(this, 1f);
 
     skatoloInside = new Skatolo(parent, this);
     skatoloInside.setAutoDraw(false);
@@ -85,9 +86,13 @@ public class ModesZone  extends TableScreen {
   public void drawOnPaper() {
       background(20);
 
-      ArrayList<TrackedElement> te = colorTracker.findColor(millis());
+      // stickerTracker.findColor(millis());
+	// TouchList stickerTouchs = getTouchListFrom(stickerTracker);
+	// 	allTouchs.addAll(stickerTouchs);   // comment to disable
+      
       colorMode(RGB, 255);
-      TouchList touchs = colorTracker.getTouchList();
+      ArrayList<TrackedElement> te = stickerTracker.findColor(millis());
+      TouchList touchs = getTouchListFrom(stickerTracker);
 
       // for(Touch t : touchs){
       // 	  ellipse(t.position.x,

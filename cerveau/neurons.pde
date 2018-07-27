@@ -69,6 +69,7 @@ public class NeuronZone  extends TableScreen {
     }
     
     public void drawOnPaper() {
+	setLocation(neuronZonePos.x, neuronZonePos.y, -2);
 	background(10, 180);
 	fill(200, 100, 20);
 	
@@ -78,7 +79,7 @@ public class NeuronZone  extends TableScreen {
 	rect(0, 0, drawingSize.x, drawingSize.y);
 	
 	ArrayList<TrackedElement> te = stickerTracker.findColor(millis());
-	TouchList touchs = stickerTracker.getTouchList(1); // 1 is red
+	TouchList touchs = stickerTracker.getTouchList(0); // is red
 	//	ArrayList<TrackedElement> te = colorTracker.findColor(millis());
 	// TouchList touchs = colorTracker.getTouchList();
 	

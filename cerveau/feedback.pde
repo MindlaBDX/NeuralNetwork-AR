@@ -6,14 +6,17 @@ public class FeedbackZone extends TableScreen {
 	super(feedbackZonePos, feedbackZoneSize.x, feedbackZoneSize.y);
 	init();
     }
-       ColorTracker colorTracker;
-  
-    public void init() {
-    colorTracker = papart.initRedTracking(this, 1f);
 
-    skatoloInside = new Skatolo(parent, this);
-    skatoloInside.setAutoDraw(false);
-    skatoloInside.getMousePointer().disable();
+    CalibratedStickerTracker stickerTracker;
+    
+    public void init() {
+
+	// Sticker tracker 
+	stickerTracker = new CalibratedStickerTracker(this, 15);
+
+	skatoloInside = new Skatolo(parent, this);
+	skatoloInside.setAutoDraw(false);
+	skatoloInside.getMousePointer().disable();
 
     int initP = 22;
     int gap = 51;
@@ -42,27 +45,24 @@ public class FeedbackZone extends TableScreen {
        
     // TODO: buttons here for Touch !
     public void drawOnPaper() {
-	//	background(255, 180);
-
-	// updateTouch();
-
-        // SkatoloLink.updateTouch(touchList, skatoloInside);
-
-   ArrayList<TrackedElement> te = colorTracker.findColor(millis());
       colorMode(RGB, 255);
       background(0);
-      TouchList touchs = colorTracker.getTouchList();
+
+
+      stickerTracker.findColor(millis());
+      TouchList touchs = getTouchListFrom(stickerTracker);
 
       for(Touch t : touchs){
-	  ellipse(t.position.x,
-		  t.position.y, 10, 10); 
+	  t.id = 3;
+	  // ellipse(t.position.x,
+	  // 	  t.position.y,
+	  // 	  3, 3);
+	  
       }
-
-      SkatoloLink.addMouseTo(touchList, skatoloInside, this);
+      
+      SkatoloLink.addMouseTo(touchs, skatoloInside, this);
       SkatoloLink.updateTouch(touchs, skatoloInside); 
-
       skatoloInside.draw(getGraphics());
-	    //	    drawTouch();
     }
 
 }
